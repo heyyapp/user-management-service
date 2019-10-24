@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const JWT = require('jsonwebtoken');
 
+const Config = require('./../config');
+
 require('./../models/user');
 require('./../models/auth_token');
 const User = mongoose.model('users');
@@ -36,8 +38,8 @@ const component = (req, res) => {
                             user_id: user._id,
                         }
 
-                        const accessToken = JWT.sign(tokenPayload, 'ak47', { expiresIn: '1h' });
-                        const refreshToken = JWT.sign(tokenPayload, 'ak48', { expiresIn: '30d' });
+                        const accessToken = JWT.sign(tokenPayload, Config.ACCESS_TOKEN_SECRET_KEY, { expiresIn: Config.ACCESS_TOKEN_EXPIRE_TIME });
+                        const refreshToken = JWT.sign(tokenPayload, Config.REFRESH_TOKEN_SECRET_KEY, { expiresIn: Config.REFRESH_TOKEN_EXPIRE_TIME });
 
                         const authTokenSchema = {
                             _user_id: user._id,
