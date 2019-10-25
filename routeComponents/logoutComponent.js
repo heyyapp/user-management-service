@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi');
 const mongoose = require('mongoose');
 const JWT = require('jsonwebtoken');
+const sha1 = require('sha1');
 
 const Config = require('./../config');
 
@@ -20,7 +21,7 @@ const component = (req, res) => {
         
         JWT.decode(userValidInputs.value.access_token, Config.ACCESS_TOKEN_SECRET_KEY);
 
-        AuthToken.findOneAndRemove({ refresh_token: userValidInputs.value.refresh_token })
+        AuthToken.findOneAndRemove({ refresh_token: sha1(userValidInputs.value.refresh_token) })
         .then( token => {
             if(token) {
                 res.json({

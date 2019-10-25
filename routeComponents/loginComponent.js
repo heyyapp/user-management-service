@@ -2,6 +2,7 @@ const Joi = require('@hapi/joi');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const JWT = require('jsonwebtoken');
+const sha1 = require('sha1');
 
 const Config = require('./../config');
 
@@ -43,7 +44,7 @@ const component = (req, res) => {
 
                         const authTokenSchema = {
                             _user_id: user._id,
-                            refresh_token: refreshToken
+                            refresh_token: sha1(refreshToken)
                         }
 
                         new AuthToken(authTokenSchema)
@@ -55,7 +56,7 @@ const component = (req, res) => {
                                         success: true,
                                         response: {
                                             access_token: accessToken,
-                                            refresh_token: token.refresh_token
+                                            refresh_token: refreshToken
                                         }
                                     });
                                 }

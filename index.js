@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 mongoose
     .connect('mongodb://localhost/heyy', {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useFindAndModify: false
     })
     .then(() => console.log(`mongodb connected.`))
     .catch((err) => console.log(err));
